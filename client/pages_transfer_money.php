@@ -3,7 +3,8 @@ session_start();
 include('../admin/conf/config.php');
 include('conf/checklogin.php');
 check_login();
-$client_id = $_SESSION['client_id'];
+$admin_id = $_SESSION['admin_id'];
+//register new account
 
 if (isset($_POST['deposit'])) {
     $tr_code = $_POST['tr_code'];
@@ -75,8 +76,7 @@ if (isset($_POST['deposit'])) {
 
 
 
-?>
-<!-- Log on to codeastro.com for more projects! -->
+?><!-- Log on to codeastro.com for more projects! -->
 <!DOCTYPE html>
 <html>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
@@ -101,6 +101,14 @@ if (isset($_POST['deposit'])) {
         $res = $stmt->get_result();
         $cnt = 1;
         while ($row = $res->fetch_object()) {
+            //Indicate Account Balance 
+            $result = "SELECT SUM(transaction_amt) FROM  iB_Transactions  WHERE account_id=?";
+            $stmt = $mysqli->prepare($result);
+            $stmt->bind_param('i', $account_id);
+            $stmt->execute();
+            $stmt->bind_result($amt);
+            $stmt->fetch();
+            $stmt->close();
 
         ?>
             <div class="content-wrapper">
@@ -152,6 +160,7 @@ if (isset($_POST['deposit'])) {
                                                     <input type="text" readonly name="client_phone" value="<?php echo $row->client_phone; ?>" required class="form-control" id="exampleInputEmail1">
                                                 </div>
                                             </div>
+
                                             <div class="row">
                                                 <div class=" col-md-4 form-group">
                                                     <label for="exampleInputEmail1">Account Name</label>
@@ -168,7 +177,7 @@ if (isset($_POST['deposit'])) {
                                             </div>
 
                                             <div class="row">
-                                                <div class=" col-md-6 form-group">
+                                                <div class=" col-md-4 form-group">
                                                     <label for="exampleInputEmail1">Transaction Code</label>
                                                     <?php
                                                     //PHP function to generate random account number
@@ -177,17 +186,16 @@ if (isset($_POST['deposit'])) {
                                                     ?>
                                                     <input type="text" name="tr_code" readonly value="<?php echo $_transcode; ?>" required class="form-control" id="exampleInputEmail1">
                                                 </div>
-
-                                                <div class=" col-md-6 form-group">
+                                                <div class=" col-md-4 form-group">
+                                                    <label for="exampleInputPassword1">Current Account Balance</label>
+                                                    <input type="text" readonly value="<?php echo $amt; ?>" required class="form-control" id="exampleInputEmail1">
+                                                </div>
+                                                <div class=" col-md-4 form-group">
                                                     <label for="exampleInputPassword1">Amount Transfered($)</label>
                                                     <input type="text" name="transaction_amt" required class="form-control" id="exampleInputEmail1">
                                                 </div>
-                                                <div class=" col-md-6 form-group">
-                                                    <label for="acc_amount">Account Amount</label>
-                                                    <input type="number" name="acc_amount" required class="form-control" id="acc_amount">
-                                                </div>
                                             </div>
-                                            <!-- Log on to codeastro.com for more projects! -->
+
                                             <div class="row">
                                                 <div class=" col-md-4 form-group">
                                                     <label for="exampleInputPassword1">Receiving Account Number</label>
@@ -195,7 +203,7 @@ if (isset($_POST['deposit'])) {
                                                         <option>Select Receiving Account</option>
                                                         <?php
                                                         //fetch all iB_Accs
-                                                        $ret = "SELECT * FROM iB_bankAccounts WHERE client_id !='".$client_id."'";
+                                                        $ret = "SELECT * FROM  iB_bankAccounts ";
                                                         $stmt = $mysqli->prepare($ret);
                                                         $stmt->execute(); //ok
                                                         $res = $stmt->get_result();
@@ -208,6 +216,10 @@ if (isset($_POST['deposit'])) {
                                                         <?php } ?>
 
                                                     </select>
+                                                </div>
+                                                <div class=" col-md-4 form-group">
+                                                    <label for="acc_amount">Account Amount ($)</label>
+                                                    <input type="number" name="acc_amount" required class="form-control" id="acc_amount">
                                                 </div>
                                                 <div class=" col-md-4 form-group">
                                                     <label for="exampleInputPassword1">Receiving Account Name</label>
@@ -240,7 +252,7 @@ if (isset($_POST['deposit'])) {
                             </div><!-- /.container-fluid -->
                 </section>
                 <!-- /.content -->
-            </div><!-- Log on to codeastro.com for more projects! -->
+            </div>
         <?php } ?>
         <!-- /.content-wrapper -->
         <?php include("dist/_partials/footer.php"); ?>

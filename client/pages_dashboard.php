@@ -373,7 +373,9 @@ $stmt->close();
     <!-- /.control-sidebar -->
 
     <!-- Main Footer -->
+
     <!-- <?php include("dist/_partials/footer.php"); ?> -->
+
 
   </div>
   <!-- ./wrapper -->

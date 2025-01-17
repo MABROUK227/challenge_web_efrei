@@ -1,6 +1,8 @@
 <?php
 session_start();
+
 include('../admin/conf/config.php');
+
 include('conf/checklogin.php');
 check_login();
 $client_id = $_SESSION['client_id'];

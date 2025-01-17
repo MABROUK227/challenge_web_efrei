@@ -3,7 +3,8 @@ session_start();
 include('../admin/conf/config.php');
 include('conf/checklogin.php');
 check_login();
-$client_id = $_SESSION['client_id'];
+$admin_id = $_SESSION['admin_id'];
+//register new account
 
 if (isset($_POST['withdrawal'])) {
     $tr_code = $_POST['tr_code'];
@@ -48,7 +49,7 @@ if (isset($_POST['withdrawal'])) {
 
 
         //Insert Captured information to a database table
-        $query = "INSERT INTO iB_Transactions (tr_code, account_id, acc_name, account_number, acc_type,  tr_type, tr_status, client_id, client_name, client_national_id, transaction_amt, client_phone,acc_amount,receiving_acc_no,receiving_acc_name,receiving_acc_holder) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $query = "INSERT INTO iB_Transactions (tr_code, account_id, acc_name, account_number, acc_type,  tr_type, tr_status, client_id, client_name, client_national_id, transaction_amt, client_phone,acc_amount, receiving_acc_no,receiving_acc_name, receiving_acc_holder) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $notification = "INSERT INTO  iB_notifications (notification_details) VALUES (?)";
         $stmt = $mysqli->prepare($query);
         $notification_stmt = $mysqli->prepare($notification);
@@ -199,13 +200,13 @@ if (isset($_POST['withdrawal'])) {
                                                     <label for="exampleInputPassword1">Amount Withdraw </label>
                                                     <input type="text" name="transaction_amt" required class="form-control" id="exampleInputEmail1">
                                                 </div>
-                                                <div class=" col-md-6 form-group">
-                                                    <label for="acc_amount">Account Amount</label>
+                                                <div class="col-md-6 form-group">
+                                                    <label for="acc_amount">Account Amount ($)</label>
                                                     <input type="number" name="acc_amount" required class="form-control" id="acc_amount">
                                                 </div>
-                                                <div class=" col-md-6 form-group">
+                                                <div class="col-md-6 form-group">
                                                     <label for="receiving_acc_no">Receiving Account Number</label>
-                                                    <input type="text" name="receiving_acc_no" required class="form-control" id="receiving_acc_no">
+                                                    <input type="text" name="receiving_acc_no" class="form-control" id="receiving_acc_no" required>
                                                 </div>
                                                 <div class="col-md-6 form-group">
                                                     <label for="receiving_acc_name">Receiving Account Name</label>

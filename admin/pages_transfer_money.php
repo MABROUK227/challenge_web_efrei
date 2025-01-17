@@ -12,7 +12,9 @@ if (isset($_POST['deposit'])) {
     $acc_name = $_POST['acc_name'];
     $account_number = $_GET['account_number'];
     $acc_type = $_POST['acc_type'];
+
     $acc_amount  = $_POST['acc_amount'];
+
     $tr_type  = $_POST['tr_type'];
     $tr_status = $_POST['tr_status'];
     $client_id  = $_GET['client_id'];
@@ -51,14 +53,18 @@ if (isset($_POST['deposit'])) {
 
 
         //Insert Captured information to a database table
-        $query = "INSERT INTO iB_Transactions (tr_code, account_id, acc_name, account_number, acc_type,  tr_type, tr_status, client_id, client_name, client_national_id, transaction_amt, client_phone, receiving_acc_no, receiving_acc_name, receiving_acc_holder,acc_amount) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        $query = "INSERT INTO iB_Transactions (tr_code, account_id, acc_name, account_number, acc_type,  tr_type, tr_status, client_id, client_name, client_national_id, transaction_amt, client_phone, receiving_acc_no, receiving_acc_name, receiving_acc_holder, acc_amount) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
         $notification = "INSERT INTO  iB_notifications (notification_details) VALUES (?)";
 
         $stmt = $mysqli->prepare($query);
         $notification_stmt = $mysqli->prepare($notification);
 
         //bind paramaters
-        $rc = $stmt->bind_param('ssssssssssssssss', $tr_code, $account_id, $acc_name, $account_number, $acc_type, $tr_type, $tr_status, $client_id, $client_name, $client_national_id, $transaction_amt, $client_phone, $receiving_acc_no, $receiving_acc_name, $receiving_acc_holder,$acc_amount);
+
+        $rc = $stmt->bind_param('ssssssssssssssss', $tr_code, $account_id, $acc_name, $account_number, $acc_type, $tr_type, $tr_status, $client_id, $client_name, $client_national_id, $transaction_amt, $client_phone, $receiving_acc_no, $receiving_acc_name, $receiving_acc_holder, $acc_amount);
+
         $rc = $notification_stmt->bind_param('s', $notification_details);
 
         $stmt->execute();
@@ -218,10 +224,12 @@ if (isset($_POST['deposit'])) {
                                                     </select>
                                                 </div>
                                                 <div class=" col-md-4 form-group">
+
                                                     <label for="acc_amount">Account Amount ($)</label>
-                                                    <input type="number" name="acc_amount" required class="form-control" id="acc_amount">
+                                                    <input type="text" name="acc_amount" required class="form-control" id="ReceivingAcc">
                                                 </div>
                                                 <div class=" col-md-4 form-group">
+
                                                     <label for="exampleInputPassword1">Receiving Account Name</label>
                                                     <input type="text" name="receiving_acc_name" required class="form-control" id="ReceivingAcc">
                                                 </div>
