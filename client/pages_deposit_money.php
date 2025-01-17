@@ -10,7 +10,9 @@ if (isset($_POST['deposit'])) {
     $acc_name = $_POST['acc_name'];
     $account_number = $_GET['account_number'];
     $acc_type = $_POST['acc_type'];
-    //$acc_amount  = $_POST['acc_amount'];
+
+    $acc_amount  = $_POST['acc_amount'];
+
     $tr_type  = $_POST['tr_type'];
     $tr_status = $_POST['tr_status'];
     $client_id  = $_GET['client_id'];
