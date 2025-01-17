@@ -1,10 +1,12 @@
 <?php
 session_start();
+
 include('../admin/conf/config.php');
 include('conf/checklogin.php');
 check_login();
 $admin_id = $_SESSION['admin_id'];
 //register new account
+
 
 if (isset($_POST['deposit'])) {
     $tr_code = $_POST['tr_code'];
@@ -12,7 +14,9 @@ if (isset($_POST['deposit'])) {
     $acc_name = $_POST['acc_name'];
     $account_number = $_GET['account_number'];
     $acc_type = $_POST['acc_type'];
+
     $acc_amount  = $_POST['acc_amount'];
+
     $tr_type  = $_POST['tr_type'];
     $tr_status = $_POST['tr_status'];
     $client_id  = $_GET['client_id'];
@@ -51,14 +55,18 @@ if (isset($_POST['deposit'])) {
 
 
         //Insert Captured information to a database table
+
         $query = "INSERT INTO iB_Transactions (tr_code, account_id, acc_name, account_number, acc_type,  tr_type, tr_status, client_id, client_name, client_national_id, transaction_amt, client_phone, receiving_acc_no, receiving_acc_name, receiving_acc_holder,acc_amount) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
         $notification = "INSERT INTO  iB_notifications (notification_details) VALUES (?)";
 
         $stmt = $mysqli->prepare($query);
         $notification_stmt = $mysqli->prepare($notification);
 
         //bind paramaters
+
         $rc = $stmt->bind_param('ssssssssssssssss', $tr_code, $account_id, $acc_name, $account_number, $acc_type, $tr_type, $tr_status, $client_id, $client_name, $client_national_id, $transaction_amt, $client_phone, $receiving_acc_no, $receiving_acc_name, $receiving_acc_holder,$acc_amount);
+
         $rc = $notification_stmt->bind_param('s', $notification_details);
 
         $stmt->execute();
@@ -76,7 +84,9 @@ if (isset($_POST['deposit'])) {
 
 
 
+
 ?><!-- Log on to codeastro.com for more projects! -->
+
 <!DOCTYPE html>
 <html>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
@@ -101,6 +111,7 @@ if (isset($_POST['deposit'])) {
         $res = $stmt->get_result();
         $cnt = 1;
         while ($row = $res->fetch_object()) {
+
             //Indicate Account Balance 
             $result = "SELECT SUM(transaction_amt) FROM  iB_Transactions  WHERE account_id=?";
             $stmt = $mysqli->prepare($result);
@@ -109,6 +120,7 @@ if (isset($_POST['deposit'])) {
             $stmt->bind_result($amt);
             $stmt->fetch();
             $stmt->close();
+
 
         ?>
             <div class="content-wrapper">
@@ -177,7 +189,9 @@ if (isset($_POST['deposit'])) {
                                             </div>
 
                                             <div class="row">
+
                                                 <div class=" col-md-4 form-group">
+
                                                     <label for="exampleInputEmail1">Transaction Code</label>
                                                     <?php
                                                     //PHP function to generate random account number
@@ -186,11 +200,13 @@ if (isset($_POST['deposit'])) {
                                                     ?>
                                                     <input type="text" name="tr_code" readonly value="<?php echo $_transcode; ?>" required class="form-control" id="exampleInputEmail1">
                                                 </div>
+
                                                 <div class=" col-md-4 form-group">
                                                     <label for="exampleInputPassword1">Current Account Balance</label>
                                                     <input type="text" readonly value="<?php echo $amt; ?>" required class="form-control" id="exampleInputEmail1">
                                                 </div>
                                                 <div class=" col-md-4 form-group">
+
                                                     <label for="exampleInputPassword1">Amount Transfered($)</label>
                                                     <input type="text" name="transaction_amt" required class="form-control" id="exampleInputEmail1">
                                                 </div>
@@ -203,7 +219,9 @@ if (isset($_POST['deposit'])) {
                                                         <option>Select Receiving Account</option>
                                                         <?php
                                                         //fetch all iB_Accs
+
                                                         $ret = "SELECT * FROM  iB_bankAccounts ";
+
                                                         $stmt = $mysqli->prepare($ret);
                                                         $stmt->execute(); //ok
                                                         $res = $stmt->get_result();
@@ -218,10 +236,12 @@ if (isset($_POST['deposit'])) {
                                                     </select>
                                                 </div>
                                                 <div class=" col-md-4 form-group">
+
                                                     <label for="acc_amount">Account Amount ($)</label>
                                                     <input type="number" name="acc_amount" required class="form-control" id="acc_amount">
                                                 </div>
                                                 <div class=" col-md-4 form-group">
+
                                                     <label for="exampleInputPassword1">Receiving Account Name</label>
                                                     <input type="text" name="receiving_acc_name" required class="form-control" id="ReceivingAcc">
                                                 </div>
@@ -252,7 +272,9 @@ if (isset($_POST['deposit'])) {
                             </div><!-- /.container-fluid -->
                 </section>
                 <!-- /.content -->
+
             </div>
+
         <?php } ?>
         <!-- /.content-wrapper -->
         <?php include("dist/_partials/footer.php"); ?>
