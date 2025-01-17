@@ -73,7 +73,9 @@ $client_id = $_SESSION['client_id'];
         $cnt = 1;
         while ($row = $res->fetch_object()) {
             //compute rate
-            $banking_rate = ($row->acc_rates) / 100;
+
+            // $banking_rate = ($row->acc_rates) / 100;
+
             //compute Money out
             $money_out = $withdrawal + $Transfer;
             //compute the balance
