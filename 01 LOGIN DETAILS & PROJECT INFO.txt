@@ -1,0 +1,41 @@
+**Log on to codeastro.com for more projects!***
+
+**Database Name: internetbanking**
+
+**Developed by Martin Mbithi**
+
+**Recommended PHP Version 5, 7, 8**
+
+
+**Admin Login Details**
+
+Email	: admin@mail.com
+Password: codeastro.com
+
+
+**Staff Login Details**
+
+Email	: staff@mail.com
+Password: codeastro.com
+
+
+Available Features:
+Admin Panel
+Staff Panel
+Customer Panel
+Account Management
+Deposit/Withdraw Amount
+Transfer Amount
+Transaction History
+Activity Notifications
+Check Account Balance
+Print Account Balance
+Deposit Report
+Withdrawal Report
+Transfer Report
+View Overall Wallet Balance
+View Analytics
+Staff Management
+Customer Management
+System Settings
+
