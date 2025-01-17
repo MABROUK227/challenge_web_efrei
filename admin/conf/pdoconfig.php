@@ -1,7 +1,9 @@
 <?php
-$DB_host = "127.0.0.1";
-$DB_user = "francesco";
-$DB_pass = "some_pass";
+
+$DB_host = "localhost";
+$DB_user = "root";
+$DB_pass = "root";
+
 $DB_name = "internetbanking";
 
 try {
